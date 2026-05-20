@@ -1,0 +1,88 @@
+SELECT FullName
+FROM Clients
+WHERE PreferredChannel="Telegram";
+
+
+SELECT ServiceName
+FROM Services
+WHERE Price>2000;
+
+SELECT [Name]
+FROM Barbers
+WHERE [Level]="Senior";
+
+SELECT AppointmentID, AppointmentDate, Status
+FROM Appointments
+WHERE Status="Отменено";
+
+SELECT AppointmentDate
+FROM Appointments
+ORDER BY AppointmentDate DESC;
+
+SELECT TOP 5 ServiceName, Price
+FROM Services
+ORDER BY Price DESC;
+
+SELECT FullName
+FROM Clients
+WHERE TRIM(Phone) LIKE '+7999*';
+
+SELECT AppointmentDate
+FROM Appointments
+WHERE BarberID=4;
+
+SELECT DurationMin, ServiceName, ServiceID
+FROM Services
+WHERE DurationMin > 45;
+
+SELECT AppointmentDate, Status
+FROM Appointments
+WHERE Status="Запланировано"
+ORDER BY AppointmentDate;
+
+SELECT FullName, AppointmentDate, Status
+FROM Clients INNER JOIN Appointments ON Clients.ClientID=Appointments.ClientID;
+
+SELECT [Name], ServiceName, AppointmentDate
+FROM (Appointments INNER JOIN Barbers ON Barbers.BarberID=Appointments.BarberID) INNER JOIN Services ON Services.ServiceID=Appointments.ServiceID;
+
+SELECT FullName, [Name], ServiceName, Price, AppointmentDate, Status
+FROM ((Appointments INNER JOIN Barbers ON Barbers.BarberID=Appointments.BarberID) INNER JOIN Clients ON Clients.ClientID=Appointments.ClientID) INNER JOIN Services ON Services.ServiceID=Appointments.ServiceID;
+
+SELECT FullName, [Name], ServiceName, Price, AppointmentDate, Status
+FROM ((Appointments INNER JOIN Barbers ON Barbers.BarberID=Appointments.BarberID) INNER JOIN Clients ON Clients.ClientID=Appointments.ClientID) INNER JOIN Services ON Services.ServiceID=Appointments.ServiceID
+WHERE FullName="Максим Волков";
+
+SELECT [Name], FullName, ServiceName, AppointmentDate, Status
+FROM ((Appointments INNER JOIN Barbers ON Barbers.BarberID=Appointments.BarberID) INNER JOIN Clients ON Clients.ClientID=Appointments.ClientID) INNER JOIN Services ON Services.ServiceID=Appointments.ServiceID
+WHERE Level="Senior";
+
+SELECT BarberID, COUNT(*) AS barbers_count
+FROM Appointments
+GROUP BY BarberID;
+
+SELECT AVG(Price) AS avg_price
+FROM Services;
+
+SELECT MAX (Price) AS max_price
+FROM Services;
+
+SELECT BarberID, ClientID, COUNT(*) AS status_count
+FROM Appointments
+WHERE Status="Отменено"
+GROUP BY BarberID, ClientID;
+
+SELECT [Name], COUNT(*) AS count_date
+FROM Appointments INNER JOIN Barbers ON Barbers.BarberID=Appointments.BarberID
+GROUP BY [Name]
+ORDER BY COUNT(*) DESC;
+
+SELECT TOP 1 ServiceName, COUNT(AppointmentDate) AS count_app
+FROM Services INNER JOIN Appointments ON Services.ServiceID=Appointments.ServiceID
+GROUP BY ServiceName
+ORDER BY COUNT(AppointmentDate) DESC;
+
+SELECT FullName, COUNT(AppointmentDate) AS count_app
+FROM Clients INNER JOIN Appointments ON Clients.ClientID=Appointments.ClientID
+GROUP BY FullNAme
+HAVING COUNT(AppointmentDate)>1;
